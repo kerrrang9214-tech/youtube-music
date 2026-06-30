@@ -4,10 +4,19 @@
   "features": {
     "ghcr.io/devcontainers/features/github-cli:1": {}
   },
+  "mounts": [
+    "source=ytmusic-pnpm-store,target=/home/node/.local/share/pnpm/store,type=volume",
+    "source=ytmusic-playwright-cache,target=/home/node/.cache/ms-playwright,type=volume"
+  ],
+  "containerEnv": {
+    "PLAYWRIGHT_BROWSERS_PATH": "/home/node/.cache/ms-playwright"
+  },
   "customizations": {
     "vscode": {
       "settings": {
-        "editor.formatOnSave": true
+        "editor.formatOnSave": true,
+        "files.eol": "\n",
+        "terminal.integrated.defaultProfile.linux": "bash"
       },
       "extensions": [
         "dbaeumer.vscode-eslint",
@@ -17,6 +26,6 @@
     }
   },
   "forwardPorts": [4173, 5173, 9222],
-  "postCreateCommand": "corepack enable && pnpm install --frozen-lockfile",
+  "postCreateCommand": "corepack enable && pnpm install --frozen-lockfile && pnpm exec playwright install --with-deps",
   "remoteUser": "node"
 }
